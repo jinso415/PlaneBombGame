@@ -575,7 +575,7 @@ namespace PlaneBombGame
                             int enemyChessDownCount = int.Parse(words[3]);
                             AttackPoint attackPoint = new AttackPoint(chessDownX, chessDownY);
                             //绘制棋盘
-                            string res = state.DrawLastPoint(attackPoint, state.GetLocalPlayer(), panel3.CreateGraphics());
+                            string res = state.DrawLastPoint(attackPoint, state.GetLocalPlayer(), panel2.CreateGraphics());
 
                             //加入对手落子历史
                             state.GetAdversaryPlayer().AddAttackPoint(attackPoint,res);                           
