@@ -23,7 +23,7 @@ namespace PlaneBombGame
 
 
         public static int toLeft { get { return 40; } }
-        public static int toTop { get { return 30; } }
+        public static int toTop { get { return 25; } }
 
     }
 }
