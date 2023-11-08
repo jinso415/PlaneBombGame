@@ -84,16 +84,19 @@ namespace PlaneBombGame
 
 
             SolidBrush brush;
-            if (!isPreviewPlane) brush = new SolidBrush(Color.LightBlue);
-            else if (isValidPlace) brush = new SolidBrush(Color.FromArgb(115,230,140));
+            if (!isPreviewPlane) brush = new SolidBrush(Color.FromArgb(115, 230, 140));
+            else if (isValidPlace) brush = new SolidBrush(Color.LightBlue);
             else brush = new SolidBrush(Color.FromArgb(255, 134, 91));
             
 
 
-
-            for (int i = 0; i < 3; i++) {
-                g.FillRectangle(brush, recs[direction * 3 + i]);
-            }
+            if(StandardSize.toLeft + 40 <= AccurateX && AccurateX <= 400 + StandardSize.toLeft && StandardSize.toTop + 40 <= AccurateY && AccurateY <= 400 + StandardSize.toTop)
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    g.FillRectangle(brush, recs[direction * 3 + i]);
+                }
+            } 
 
             Rectangle[] rc = new Rectangle[20];
 
@@ -109,7 +112,7 @@ namespace PlaneBombGame
             rc[3] = new Rectangle(AccurateX - 2 * dx, AccurateY - dy, dx, 2 * dy);
             rc[4] = new Rectangle(AccurateX - 2 * dx, AccurateY, dx, 2 * dy);
             //1
-            rc[6] = new Rectangle(AccurateX + dx, AccurateY, 2 * dx, dy);
+            rc[6] = new Rectangle(AccurateX + dx, AccurateY, 2 * dx, dy); 
             rc[7] = new Rectangle(AccurateX - 2 * dx, AccurateY, 2 * dx, dy);
             rc[8] = new Rectangle(AccurateX - dx, AccurateY - 2 * dy, 2 * dx, dy);
             rc[9] = new Rectangle(AccurateX, AccurateY - 2 * dy, 2 * dx, dy);
@@ -128,10 +131,14 @@ namespace PlaneBombGame
 
 
             SolidBrush brush2 = new SolidBrush(Color.Yellow);
-
-            for (int i = 0; i < 5; i++) {
-                g.FillEllipse(brush, rc[5 * direction + i]);
+            if (StandardSize.toLeft + 40 <= AccurateX && AccurateX <=400 + StandardSize.toLeft && StandardSize.toTop + 40 <= AccurateY && AccurateY <= 400 + StandardSize.toTop)
+            {
+                for (int i = 0; i < 5; i++)
+                {
+                    g.FillEllipse(brush, rc[5 * direction + i]);
+                }
             }
+            
 
         }
         public override string ToString()

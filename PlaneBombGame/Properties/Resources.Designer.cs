@@ -87,11 +87,23 @@ namespace PlaneBombGame.Properties {
         ///7 5 0 2 8 2 2 3 2
         ///7 5 1 2 8 2 2 3 2
         ///7 5 2 2 8 2 2 3 2
-        ///7 5 3 2 8 2 2 3 2        /// [字符串的其余部分被截断]&quot;; 的本地化字符串。
+        ///7 5 3 2 8 2 2 3 2
+        ///7 6 0 2 8 2 2 3 2
+        ///7 6 1 2  [字符串的其余部分被截断]&quot;; 的本地化字符串。
         /// </summary>
         internal static string All {
             get {
                 return ResourceManager.GetString("All", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap background {
+            get {
+                object obj = ResourceManager.GetObject("background", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         

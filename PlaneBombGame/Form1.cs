@@ -32,6 +32,8 @@ namespace PlaneBombGame
 
         private int chessDownCount = 0; // 后手方的chessDownCount应该始终比先手放的小一  在接收的时候应该用的上  ....  叭
 
+        private int kind = 1;
+
         internal State state;
 
         private MovePlane movePlaneForm;
@@ -82,43 +84,32 @@ namespace PlaneBombGame
         {
             start = false;
             label1.Text = "WelCome To Plane Bombbbb!!!";
-            panel3.Width = StandardSize.BoardWidth;
-            panel3.Height = StandardSize.BoardHeight;
-            panel4.Width = StandardSize.BoardWidth;
-            panel4.Height = StandardSize.BoardHeight;
-            // TO DO
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
             initialize();
+            this.Width = StandardSize.HomeWidth;
+            this.Height = StandardSize.HomeHeight;
+            this.Location = new Point(300, 200);
+            /*            showPredictTmr.Elapsed += new System.Timers.ElapsedEventHandler(showPredictPlane);
+                        showPredictTmr.Enabled = false;
+                        showPredictTmr.Interval = 150;*/
+
+        }
+
+        //玩家对战  采用随机生成飞机  随即落点的方式
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.kind = 0;
+            TopPanel.Visible = false;
+            AiPanel.Visible = false;
+            panel1.Visible = true;
             this.Width = StandardSize.FormWidth;
             this.Height = StandardSize.FormHeight;
-            this.Location = new Point(240, 10);
-
-/*            showPredictTmr.Elapsed += new System.Timers.ElapsedEventHandler(showPredictPlane);
-            showPredictTmr.Enabled = false;
-            showPredictTmr.Interval = 150;*/
-
-        }
-
-        //人机对战  采用随机生成飞机  随即落点的方式
-        private void button1_Click(object sender, EventArgs e)
-        { 
-            BeginNewVirtualModeGame();
-            if(hasBeenClicked)  button2.Enabled = false;
-            button3.Enabled = false;
-        }
-        
-        //人人对战  初始化 socket  Client 端  并生成state
-        private void button2_Click(object sender, EventArgs e)
-        {
-            if(socket != null)
+            if (socket != null)
             {
                 reBeginNewHumanModeGame();
-                button2.Enabled = false;
-                button1.Enabled = false;
-                button3.Enabled = false;
             }
 
             string getNewIp = "";
@@ -149,12 +140,8 @@ namespace PlaneBombGame
 
                 this.label1.Font = new System.Drawing.Font("宋体", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
                 label1.Text = label1Text + directions[nowDir];
-                
+
                 BeginNewHumanModeGame();
-                
-                if(hasBeenClicked)  button2.Enabled = false;
-                button1.Enabled = false;
-                button3.Enabled = false;
             }
             catch (ArgumentNullException)
             {
@@ -162,48 +149,96 @@ namespace PlaneBombGame
 
             }
         }
-
-        //自动对战
+        
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this.kind = 1;
+            TopPanel.Visible = false;
+            AiPanel.Visible = true;
+            panel1.Visible = false;
+        }
         private void button3_Click(object sender, EventArgs e)
         {
-            state = new AIModeState();
-            this.label1.Font = new System.Drawing.Font("宋体", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            label1.Text = "比赛进行中...";
-            label4.Text = "AI自动对战";
-
-            panel1.Invalidate();
-            panel3.Invalidate();
-            panel4.Invalidate();
-
-            start = true;
-            state.setFirstAiPlayer(new AiVirtualPlayer());
-            state.setSecondAiPlayer(new AiVirtualPlayer());
-
-            AiModePlayerInit();
-
-            button2.Enabled = false;
-            button1.Enabled = false;
-            button3.Enabled = false;
-
-            hasBeenClicked = true;
+            this.kind = 1;
+            BeginNewVirtualModeGame(0);
         }
-
-        private void BeginNewVirtualModeGame()
+        private void button4_Click(object sender, EventArgs e)
         {
+            this.kind = 2;
+            BeginNewVirtualModeGame(1);
+        }
+        private void button5_Click(object sender, EventArgs e)
+        {
+            this.kind = 3;
+            BeginNewVirtualModeGame(2);
+        }
+        private void button6_Click(object sender, EventArgs e)
+        {
+            TopPanel.Visible = true;
+            AiPanel.Visible = false;
+        }
+        private void button7_Click(object sender, EventArgs e)
+        {
+            if (this.kind == 0)
+            {
+                button1_Click(sender, e);
+            }else if(this.kind == 1)
+            {
+                button3_Click(sender, e);
+            }else if(this.kind == 2)
+            {
+                button4_Click(sender, e);
+            }
+            else
+            {
+                button5_Click(sender, e);
+            }
+        }
+        private void button8_Click(object sender, EventArgs e)
+        {
+            if(this.kind == 0)
+            {
+                this.panel1.Visible = false;
+                this.TopPanel.Visible = true;
+            }
+            else
+            {
+                this.panel1.Visible = false;
+                this.AiPanel.Visible = true;
+            }
+            
+            this.Width = StandardSize.HomeWidth;
+            this.Height = StandardSize.HomeHeight;
+        }
+        private void button9_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+        private void buttonClose_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+        private void BeginNewVirtualModeGame(int level)
+        {
+            TopPanel.Visible = false;
+            AiPanel.Visible = false;
+            panel1.Visible = true;
+            this.Width = StandardSize.FormWidth;
+            this.Height = StandardSize.FormHeight;
             state = new VirtualModeState();
             nowDir = 0;
             this.label1.Font = new System.Drawing.Font("宋体", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             label1.Text = label1Text + directions[nowDir];
-            lastX = lastY = -1;
             panel1.Invalidate();
+            panel2.Invalidate();
             panel3.Invalidate();
-            panel4.Invalidate();
+            lastX = lastY = -1;
             start = true;
             state.SetLeftCount(0);
-            state.SetAdversaryPlayer(new AiVirtualPlayer());
+            state.SetAdversaryPlayer(new AiVirtualPlayer(level));
             state.SetLocalPlayer(new LocalPlayer());
             paintLoaclPlane();
-            label4.Text = "正在进行人机对战...";
+            label4.Text = "正在进行人机对战..."; 
         }
 
         private void BeginNewHumanModeGame()
@@ -235,8 +270,8 @@ namespace PlaneBombGame
 
             lastX = lastY = -1;
             panel1.Invalidate();
+            panel2.Invalidate();
             panel3.Invalidate();
-            panel4.Invalidate();
 
             paintLoaclPlane();                                                         
         }
@@ -249,7 +284,7 @@ namespace PlaneBombGame
         }
 
         //绘制左侧棋盘
-        private void panel3_Paint(object sender, PaintEventArgs e)
+        private void panel2_Paint(object sender, PaintEventArgs e)
         {
             Graphics g = Graphics.FromImage(bitmap);
             PlayingBoard.DrawCB(g);
@@ -271,7 +306,7 @@ namespace PlaneBombGame
                     state.GetLocalPlayer().GetPreviewPlane().Draw(g, true);
                 }*/
             }
-            panel3.CreateGraphics().DrawImage(bitmap, 0, 0);
+            panel2.CreateGraphics().DrawImage(bitmap, 0, 0);
             if (!isForm1Active())
             {
                 this.Activate();
@@ -279,7 +314,7 @@ namespace PlaneBombGame
         }
 
         //绘制右侧棋盘
-        private void panel4_Paint(object sender, PaintEventArgs e)
+        private void panel3_Paint(object sender, PaintEventArgs e)
         {
             Graphics g = Graphics.FromImage(bitmap);
             PlayingBoard.DrawCB(g);
@@ -296,11 +331,11 @@ namespace PlaneBombGame
                 }
                
             }
-            panel4.CreateGraphics().DrawImage(bitmap, 0, 0);
+            panel3.CreateGraphics().DrawImage(bitmap, 0, 0);
         }
 
         //右侧棋盘 点击绘制落点并显示颜色
-        private void panel4_MouseDown(object sender, MouseEventArgs e)
+        private void panel3_MouseDown(object sender, MouseEventArgs e)
         {
             if (start)
             {
@@ -350,13 +385,13 @@ namespace PlaneBombGame
                 {
                     if (!Judger.JudgeLegalPlacement(state.GetLocalPlayer(), PlacementX, PlacementY))
                     {
-                        MessageBox.Show("位置不合法, 请重新放置", "提示");
+                            MessageBox.Show("位置不合法, 请重新放置", "提示");
                         return;
                     }
 
                     AttackPoint attackPoint = new AttackPoint(PlacementX, PlacementY);
 
-                    string localRes = state.DrawLastPoint(attackPoint, state.GetAdversaryPlayer(), panel4.CreateGraphics());
+                    string localRes = state.DrawLastPoint(attackPoint, state.GetAdversaryPlayer(), panel3.CreateGraphics());
                     state.GetLocalPlayer().AddAttackPoint(attackPoint, localRes); // 新的攻击点加入历史记录
                     
                     if (state is HumanModeState)
@@ -367,13 +402,12 @@ namespace PlaneBombGame
                         label4.Text = "请等待对方落子...";
                         if (Judger.JudgePlayerWin(state.GetLocalPlayer(), state.GetAdversaryPlayer()))
                         {
-                            state.DrawPlane(panel4.CreateGraphics(), false);
-                            state.DrawPoint(state.GetLocalPlayer(), state.GetAdversaryPlayer(), panel4.CreateGraphics());
+                            state.DrawPlane(panel3.CreateGraphics(), false);
+                            state.DrawPoint(state.GetLocalPlayer(), state.GetAdversaryPlayer(), panel3.CreateGraphics());
                             MessageBox.Show("You Won The Game!!");
                             aNewGameStart = true;
                             label4.Text = "点击此处重新开始游戏...";                            
-                            button1.Enabled = true;
-                            button3.Enabled = true;
+                            
                             return;
                         }
                         whoseTurn = false;
@@ -382,20 +416,24 @@ namespace PlaneBombGame
                     {
                         if (Judger.JudgePlayerWin(state.GetLocalPlayer(), state.GetAdversaryPlayer()))
                         {
-                            state.DrawPlane(panel4.CreateGraphics(), false);
-                            state.DrawPoint(state.GetLocalPlayer(), state.GetAdversaryPlayer(), panel4.CreateGraphics());
+                            state.DrawPlane(panel3.CreateGraphics(), false);
+                            state.DrawPoint(state.GetLocalPlayer(), state.GetAdversaryPlayer(), panel3.CreateGraphics());
                             MessageBox.Show("You Won The Game!!");
-                            label4.Text = "请选择想要进行的模式";
+                            label4.Text = "请选择以下操作";
                             //BeginNewVirtualModeGame();
                             start = false;//重新开始游戏
                             button3.Enabled = true;//允许进行AI自动对战                           
                             return;
                         }
+
                         Player player = state.GetAdversaryPlayer();
+
                         AttackPoint a = player.NextAttack();
+
                         string showMsgStr = "对方落子 : " + a.x + " " + a.y + "，请您行棋";
                         label4.Text = showMsgStr;
-                        string adRes = state.DrawLastPoint(a, state.GetLocalPlayer(), panel3.CreateGraphics());
+                        Console.WriteLine("yes");
+                        string adRes = state.DrawLastPoint(a, state.GetLocalPlayer(), panel2.CreateGraphics());
                         player.AddAttackPoint(a, adRes);
 
                         Console.WriteLine("您的落子:(" + PlacementX + " ," + PlacementY + ") , 您的胜率:" +
@@ -406,10 +444,10 @@ namespace PlaneBombGame
                                     ((AiVirtualPlayer)player).GetCurrentWinRate(state.GetLocalPlayer()));
                         if (Judger.JudgePlayerWin(state.GetAdversaryPlayer(),state.GetLocalPlayer()))
                         {
-                            state.DrawPlane(panel4.CreateGraphics(), false);
-                            state.DrawPoint(state.GetLocalPlayer(), state.GetAdversaryPlayer(), panel4.CreateGraphics());
+                            state.DrawPlane(panel3.CreateGraphics(), false);
+                            state.DrawPoint(state.GetLocalPlayer(), state.GetAdversaryPlayer(), panel3.CreateGraphics());
                             MessageBox.Show("AI Won The Game!");
-                            label4.Text = "请选择想要进行的模式";
+                            label4.Text = "请选择以下操作";
                             //BeginNewVirtualModeGame();
                             start = false;//重新开始游戏
                             button3.Enabled = true;//允许进行AI自动对战
@@ -541,8 +579,8 @@ namespace PlaneBombGame
                             //判断胜负
                             if (Judger.JudgePlayerWin(state.GetAdversaryPlayer(), state.GetLocalPlayer()))
                             {
-                                state.DrawPlane(panel4.CreateGraphics(), false);
-                                state.DrawPoint(state.GetLocalPlayer(), state.GetAdversaryPlayer(), panel4.CreateGraphics());
+                                state.DrawPlane(panel3.CreateGraphics(), false);
+                                state.DrawPoint(state.GetLocalPlayer(), state.GetAdversaryPlayer(), panel3.CreateGraphics());
                                 MessageBox.Show("AdversaryPlayer Won The Game!");
                                 if (label4.InvokeRequired)
                                 {
@@ -599,14 +637,14 @@ namespace PlaneBombGame
             }
         }
 
-        private void AiModePlayerInit()
+        /*private void AiModePlayerInit()
         {
             state.getFirstAiPlayer().SetPlanes(null);
             //避免两个机器人生成一样的飞机
             Thread.Sleep(20);
             state.getSecondAiPlayer().SetPlanes(null);
-            state.DrawPlane(panel3.CreateGraphics(),true);            
-            state.DrawPlane(panel4.CreateGraphics(),false);
+            state.DrawPlane(panel2.CreateGraphics(),true);            
+            state.DrawPlane(panel3.CreateGraphics(),false);
             Thread AiModePlayBeiginThread = new Thread(AiModePlayerBegin);
             AiModePlayBeiginThread.IsBackground = true;
             AiModePlayBeiginThread.Start();
@@ -626,7 +664,7 @@ namespace PlaneBombGame
                 }
 
                 //绘制在二号机器人棋盘上
-                string res = state.DrawLastPoint(firstAttackPoint, state.getSecondAiPlayer(), panel4.CreateGraphics());                
+                string res = state.DrawLastPoint(firstAttackPoint, state.getSecondAiPlayer(), panel3.CreateGraphics());                
                 
                 state.getFirstAiPlayer().AddAttackPoint(firstAttackPoint, res);
                 
@@ -670,7 +708,7 @@ namespace PlaneBombGame
                 Action<bool> actionDelegate = (x) => { this.button1.Enabled = x; };
                 this.button1.Invoke(actionDelegate, true);
             }
-        }
+        }*/
 
         private void paintLoaclPlane()
         {
@@ -709,7 +747,7 @@ namespace PlaneBombGame
         }
 
         private void Form1_LocationChanged(object sender, EventArgs e)
-        {                        
+        {                   
             if(movePlaneForm != null)
             {
                 movePlaneForm.reSetLocation(this.Location.X + 8, this.Location.Y + 30); 
@@ -717,7 +755,7 @@ namespace PlaneBombGame
 
         }
 
-        private void panel3_MouseMove(object sender, MouseEventArgs e)
+        private void panel2_MouseMove(object sender, MouseEventArgs e)
         {
             if (start)
             {
@@ -754,7 +792,7 @@ namespace PlaneBombGame
                     plane.Draw(g);
                 }
                 state.DrawPoint(state.GetLocalPlayer(), state.GetAdversaryPlayer(), g);
-                panel4.CreateGraphics().DrawImage(bitmap, 0, 0);
+                panel3.CreateGraphics().DrawImage(bitmap, 0, 0);
                 
                 AttackPoint atk = state.GetLocalPlayer().GetAiAssistantPlayer().NextAttack();
                 label4.Text = "AI建议落子 (" + atk.x + " , " + atk.y+ ")";
@@ -765,13 +803,13 @@ namespace PlaneBombGame
         {
             if(state != null)
             {
-                panel4.Invalidate();
+                panel3.Invalidate();
             }            
         }
 
         public void setLocalPlane()
         {
-            state.DrawPlane(panel3.CreateGraphics());
+            state.DrawPlane(panel2.CreateGraphics());
             if (!isForm1Active())
             {
                 this.Activate();

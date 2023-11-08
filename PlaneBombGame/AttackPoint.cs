@@ -50,7 +50,7 @@ namespace PlaneBombGame
             else if (flag == 1) g.DrawImage(bt2, rc);
             else {
                 RectangleF recf = new RectangleF(AccurateX + 6, AccurateY + 18, StandardSize.BlockWidth - 10, StandardSize.BlockWidth - 10);
-                g.DrawString("MISS", new System.Drawing.Font("Viner Hand ITC", 12F), brush, recf);
+                g.DrawString("MISS", new System.Drawing.Font("Viner Hand ITC", 7F), brush, recf);
             }
 
             //g.FillEllipse(new SolidBrush(color), AccurateX, AccurateY, StandardSize.BlockWidth, StandardSize.BlockWidth);

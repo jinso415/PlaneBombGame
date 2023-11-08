@@ -13,13 +13,13 @@ namespace PlaneBombGame
         public static void DrawCB(Graphics g)  //传入画布对象
         {
             int BlockWidth = StandardSize.BlockWidth;                   // 格子宽度
-            int BlockNum = StandardSize.BoardWidth / BlockWidth - 1;    // 地图格子数量
+            int BlockNum = 11;    // 地图格子数量
 
             int toLeft = StandardSize.toLeft;
             int toTop = StandardSize.toTop;
 
-            g.Clear(Color.Bisque);                               // 清除画布、并用Bisque颜色填满画布
-            Pen pen = new Pen(Color.FromArgb(192, 166, 107));    // 实例化画笔
+            g.Clear(Color.FromArgb(230, 230, 230));                               // 清除画布、并用Bisque颜色填满画布
+            Pen pen = new Pen(Color.FromArgb(54, 54, 54));    // 实例化画笔
             // 画棋盘
             for (int i = 0; i < BlockNum + 1; i++)
             {
@@ -36,10 +36,10 @@ namespace PlaneBombGame
 
             //g.DrawString("MISS", new System.Drawing.Font("Viner Hand ITC", 12F), brush, recf);
             for (int i = 1; i <= 10; i++) {
-                RectangleF recf1 = new RectangleF(toLeft + i * BlockWidth + 18, toTop + 15, BlockWidth, BlockWidth);
-                g.DrawString(i.ToString(), new System.Drawing.Font("Viner Hand ITC", 20F), brush, recf1);
-                RectangleF recf2 = new RectangleF(toLeft + 20, toTop + i * BlockWidth + 15, BlockWidth, BlockWidth);
-                g.DrawString(i.ToString(), new System.Drawing.Font("Viner Hand ITC", 20F), brush, recf2);
+                RectangleF recf1 = new RectangleF(toLeft + i * BlockWidth + 8, toTop + 8, BlockWidth, BlockWidth);
+                g.DrawString(i.ToString(), new System.Drawing.Font("楷体", 20F), brush, recf1);
+                RectangleF recf2 = new RectangleF(toLeft + 8, toTop + i * BlockWidth + 8, BlockWidth, BlockWidth);
+                g.DrawString(i.ToString(), new System.Drawing.Font("楷体", 20F), brush, recf2);
             }
         }
     }

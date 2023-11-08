@@ -93,6 +93,7 @@ namespace PlaneBombGame
 
         private void form_MouseDown(object sender, MouseEventArgs e)
         {
+    
             if (e.Button == MouseButtons.Right)
             {
                 nowDir = (nowDir + 1) % 4;

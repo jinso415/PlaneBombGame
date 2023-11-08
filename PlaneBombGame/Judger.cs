@@ -229,8 +229,8 @@ namespace PlaneBombGame
 
         public static bool JudgeLegalMouseDown(int X, int Y)
         {
-            if (Y < StandardSize.toTop + +StandardSize.BlockWidth
-                || X < StandardSize.toLeft + +StandardSize.BlockWidth
+            if (Y < StandardSize.toTop + StandardSize.BlockWidth
+                || X < StandardSize.toLeft + StandardSize.BlockWidth
                 || Y >= StandardSize.toTop + (StandardSize.BlockNum + 1) * StandardSize.BlockWidth
                 || X >= StandardSize.toLeft + (StandardSize.BlockNum + 1) * StandardSize.BlockWidth
                 ) return false;

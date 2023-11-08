@@ -27,53 +27,21 @@ namespace PlaneBombGame
         int[,] nowMap = new int[11, 11];
         int[,] nowCnt = new int[11, 11];
         int[,] nowHeadCnt = new int[11, 11];
-        // 0 UNKNOWN   1  MISS   2  HIT  3 KILL
 
-        /*int Rest = 3;                                           //剩余飞机数量
-        int[] X = new int[3], Y = new int[3], D = new int[3];   // X, Y, D 记录 DFS 过程中, 飞机存放的位置 
-        int Cnt = 0;       // Cnt 表示合法的方案数 
-        void DFS(int x, int y)
+        public int level;
+
+        public AiVirtualPlayer(int level=2)
         {
-            if (Rest == 0)
-            {
-                Cnt++;
-                Plane[] planes = new Plane[3];
-                for (int i = 0; i < 3; i++)
-                {
-                    planes[i] = new Plane(X[i], Y[i], D[i]);
-                }
-                vectorStore.Add(planes);
-                return;
-            }
-            if (x == 10) return;
-            for (int i = 0; i <= 3; i++)
-            { 
-                if (Judger.JudgeLegalPlanePlacement(X, Y, D, x, y, i))
-                {
-                    Rest--;
-                    X[Rest] = x;
-                    Y[Rest] = y;
-                    D[Rest] = i;
-                    if (y == 9)
-                    {
-                        DFS(x + 1, 1);
-                    }
-                    else
-                    {
-                        DFS(x, y + 1);
-                    }
-                    D[Rest] = -1;
-                    Rest++;
-                }
-            }
-            if (y == 9) DFS(x + 1, 1);
-            else DFS(x, y + 1);
+            this.level = level;
         }
-*/
+
+        public void SetLevel(int level=2)
+        {
+            this.level = level;
+        }
+
         public void Init()
         {
-            //for (int i = 0; i < 3; i++) D[i] = -1;
-            //DFS(1, 1);
             vectorStore = Utils.GetAllLegalPlacement();            
         }
 
@@ -98,6 +66,8 @@ namespace PlaneBombGame
         }
         public AttackPoint NextAttack()
         {
+            AttackPoint aiAtk;
+            AttackPoint randomAtk = NextRandomAttack();
             UpdateInfo();
             int count = vectorStore.Count;
             if(count == 1)
@@ -107,7 +77,8 @@ namespace PlaneBombGame
                 {
                     if (nowMap[atk.x, atk.y] == 0)
                     {
-                        return atk;
+                        aiAtk = atk;
+                        break;
                     }
                 }
                 throw new Exception("");
@@ -115,8 +86,50 @@ namespace PlaneBombGame
             else
             {
                 int[] res = Utils.FindBest(nowCnt, nowHeadCnt, vectorStore.Count);
-                return new AttackPoint(res[0], res[1]);
+                aiAtk = new AttackPoint(res[0], res[1]);
             }
+
+            // choose ai according to level
+            double probabilityOfChoosingFirst = 1;
+            if (this.level == 0)
+            {
+                probabilityOfChoosingFirst = 0.1;
+            } else if (this.level == 1)
+            {
+                probabilityOfChoosingFirst = 0.5;
+            } else
+            {
+                probabilityOfChoosingFirst = 1;
+            }
+            Random random = new Random();
+            double randomValue = random.NextDouble();
+            if (randomValue <= probabilityOfChoosingFirst)
+            {
+                return aiAtk;
+            }
+            else
+            {
+                return randomAtk;
+            }
+
+        }
+
+        public AttackPoint NextRandomAttack()
+        {
+            List<int> lists = new List<int>();
+            for (int i = 1; i < 11; i++)
+            {
+                for (int j = 1; j < 11; j++)
+                {
+                    if (this.nowMap[i, j] == 0)
+                    {
+                        lists.Add(i * 1000 + j);
+                    }
+                }
+            }
+
+            int idx = lists[new Random().Next(0, lists.Count)];
+            return new AttackPoint(idx / 1000, idx % 1000);
         }
 
         public Plane[] GetPlanes()
