@@ -52,6 +52,7 @@ namespace PlaneBombGame
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
@@ -184,7 +185,7 @@ namespace PlaneBombGame
             this.button7.BackColor = System.Drawing.Color.Transparent;
             this.button7.Font = new System.Drawing.Font("华文中宋", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.button7    .ForeColor = System.Drawing.SystemColors.ControlText;
-            this.button7.Location = new System.Drawing.Point(530, 310);
+            this.button7.Location = new System.Drawing.Point(530, 300);
             this.button7.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(130, 60);
@@ -199,7 +200,7 @@ namespace PlaneBombGame
             this.button8.BackColor = System.Drawing.Color.Transparent;
             this.button8.Font = new System.Drawing.Font("华文中宋", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.button8.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.button8.Location = new System.Drawing.Point(530, 390);
+            this.button8.Location = new System.Drawing.Point(530, 380);
             this.button8.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.button8.Name = "button8";
             this.button8.Size = new System.Drawing.Size(130, 60);
@@ -214,7 +215,7 @@ namespace PlaneBombGame
             this.button9.BackColor = System.Drawing.Color.Transparent;
             this.button9.Font = new System.Drawing.Font("华文中宋", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.button9.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.button9.Location = new System.Drawing.Point(530, 470);
+            this.button9.Location = new System.Drawing.Point(530, 460);
             this.button9.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.button9.Name = "button9";
             this.button9.Size = new System.Drawing.Size(130, 60);
@@ -244,6 +245,7 @@ namespace PlaneBombGame
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.label4);
+            this.panel1.Controls.Add(this.label5);
             this.panel1.Controls.Add(this.button7);
             this.panel1.Controls.Add(this.button8);
             this.panel1.Controls.Add(this.button9);
@@ -311,10 +313,10 @@ namespace PlaneBombGame
             // 
             this.label1.BackColor = System.Drawing.SystemColors.ControlLight;
             this.label1.Font = new System.Drawing.Font("宋体", 22.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label1.Location = new System.Drawing.Point(335, 0);
-            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label1.Location = new System.Drawing.Point(0, 535);
+            this.label1.Margin = new System.Windows.Forms.Padding(0, 0, 0, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(491, 26);
+            this.label1.Size = new System.Drawing.Size(1200, 26);
             this.label1.TabIndex = 4;
             this.label1.Text = "label1";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -355,6 +357,18 @@ namespace PlaneBombGame
             this.label4.Text = "请选择以下操作";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.label4.Click += new System.EventHandler(this.label4_Click);
+            // 
+            // label5
+            // 
+            this.label5.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.label5.Font = new System.Drawing.Font("宋体", 26F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label5.Location = new System.Drawing.Point(400, 0);
+            this.label5.Name = "label4";
+            this.label5.Size = new System.Drawing.Size(400, 50);
+            this.label5.TabIndex = 5;
+            this.label5.Text = "人机对决（简单）";
+            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label5.Click += new System.EventHandler(this.label4_Click);
             //  
             // Form1
             // 
@@ -408,6 +422,7 @@ namespace PlaneBombGame
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
     }
 }
 

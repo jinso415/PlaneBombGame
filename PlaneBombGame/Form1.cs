@@ -102,6 +102,7 @@ namespace PlaneBombGame
         private void button1_Click(object sender, EventArgs e)
         {
             this.kind = 0;
+            label5.Text = "玩家对决";
             TopPanel.Visible = false;
             AiPanel.Visible = false;
             panel1.Visible = true;
@@ -160,16 +161,19 @@ namespace PlaneBombGame
         private void button3_Click(object sender, EventArgs e)
         {
             this.kind = 1;
+            this.label5.Text = "人机对决（简单）";
             BeginNewVirtualModeGame(0);
         }
         private void button4_Click(object sender, EventArgs e)
         {
             this.kind = 2;
+            this.label5.Text = "人机对决（中等）";
             BeginNewVirtualModeGame(1);
         }
         private void button5_Click(object sender, EventArgs e)
         {
             this.kind = 3;
+            this.label5.Text = "人机对决（困难）";
             BeginNewVirtualModeGame(2);
         }
         private void button6_Click(object sender, EventArgs e)
@@ -430,7 +434,7 @@ namespace PlaneBombGame
 
                         AttackPoint a = player.NextAttack();
 
-                        string showMsgStr = "对方落子 : " + a.x + " " + a.y + "，请您行棋";
+                        string showMsgStr = "对方落子 :   " + a.x + " " + a.y + "，请您行棋";
                         label4.Text = showMsgStr;
                         string adRes = state.DrawLastPoint(a, state.GetLocalPlayer(), panel2.CreateGraphics());
                         player.AddAttackPoint(a, adRes);
