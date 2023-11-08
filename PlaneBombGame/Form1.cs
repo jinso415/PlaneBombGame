@@ -432,7 +432,6 @@ namespace PlaneBombGame
 
                         string showMsgStr = "对方落子 : " + a.x + " " + a.y + "，请您行棋";
                         label4.Text = showMsgStr;
-                        Console.WriteLine("yes");
                         string adRes = state.DrawLastPoint(a, state.GetLocalPlayer(), panel2.CreateGraphics());
                         player.AddAttackPoint(a, adRes);
 

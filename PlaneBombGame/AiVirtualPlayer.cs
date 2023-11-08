@@ -66,28 +66,30 @@ namespace PlaneBombGame
         }
         public AttackPoint NextAttack()
         {
-            AttackPoint aiAtk;
             AttackPoint randomAtk = NextRandomAttack();
+            AttackPoint aiAtk = randomAtk;
             UpdateInfo();
             int count = vectorStore.Count;
-            if(count == 1)
+            if (count == 1)
             {
                 AttackPoint[] atks = Utils.GetPlanesHeads((Plane[])vectorStore[0]);
                 foreach(AttackPoint atk in atks)
                 {
                     if (nowMap[atk.x, atk.y] == 0)
-                    {
+                    { 
                         aiAtk = atk;
                         break;
                     }
                 }
-                throw new Exception("");
             }
             else
             {
                 int[] res = Utils.FindBest(nowCnt, nowHeadCnt, vectorStore.Count);
                 aiAtk = new AttackPoint(res[0], res[1]);
             }
+
+
+           
 
             // choose ai according to level
             double probabilityOfChoosingFirst = 1;
