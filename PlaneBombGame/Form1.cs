@@ -170,6 +170,9 @@ namespace PlaneBombGame
             }
             else
             {
+                this.state = null;
+                this.movePlaneForm = null;
+                GC.Collect();
                 this.panel1.Visible = false;
                 this.AiPanel.Visible = true;
             }
