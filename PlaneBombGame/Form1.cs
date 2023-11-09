@@ -58,6 +58,7 @@ namespace PlaneBombGame
         public bool isEnemyReadyForGame = false;
 
         private bool clientOrServer;
+        private Thread TransMessageThread;
 
         private bool hasBeenClicked = false;
 
@@ -208,6 +209,11 @@ namespace PlaneBombGame
             this.movePlaneForm.Visible = false;
             if(this.kind == 0)
             {
+                this.state = null;
+                this.movePlaneForm = null;
+                this.socket = null;
+                this.TransMessageThread.Abort();
+                GC.Collect();
                 this.panel1.Visible = false;
                 this.TopPanel.Visible = true;
             }
@@ -235,20 +241,21 @@ namespace PlaneBombGame
             panel1.Visible = true;
             this.Width = StandardSize.FormWidth;
             this.Height = StandardSize.FormHeight;
+            label4.Text = "正在进行人机对战...";
             state = new VirtualModeState();
             nowDir = 0;
             this.label1.Font = new System.Drawing.Font("宋体", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             label1.Text = label1Text + directions[nowDir];
-            panel1.Invalidate();
-            panel2.Invalidate();
-            panel3.Invalidate();
+            //panel1.Invalidate();
+            //panel2.Invalidate();
+            //panel3.Invalidate();
             lastX = lastY = -1;
             start = true;
             state.SetLeftCount(0);
             state.SetAdversaryPlayer(new AiVirtualPlayer(level));
             state.SetLocalPlayer(new LocalPlayer());
             paintLoaclPlane();
-            label4.Text = "正在进行人机对战..."; 
+            
         }
 
         private void BeginNewHumanModeGame()
@@ -274,7 +281,7 @@ namespace PlaneBombGame
             state.SetAdversaryPlayer(new HumanPlayer());
             state.SetLocalPlayer(new LocalPlayer());
 
-            Thread TransMessageThread = new Thread(transMessage);
+            TransMessageThread = new Thread(transMessage);
             TransMessageThread.IsBackground = true;
             TransMessageThread.Start();
 
