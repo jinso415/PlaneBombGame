@@ -62,6 +62,9 @@ namespace PlaneBombGame
 
         private bool hasBeenClicked = false;
 
+        private string getNewIp; // IP for socket
+        private string getNewPort; // Port for socket
+
         //private System.Timers.Timer showPredictTmr = new System.Timers.Timer();
 
         internal static Form1 getForm1()
@@ -615,8 +618,8 @@ namespace PlaneBombGame
 
         private void SocketPanelbutton1_Click(object sender, EventArgs e)
         {
-            string getNewIp = SocketPaneltextBox1.Text;
-            string getNewPort = SocketPaneltextBox2.Text;
+            this.getNewIp = SocketPaneltextBox1.Text;
+            this.getNewPort = SocketPaneltextBox2.Text;
             this.SocketSubPanel.Visible = false;
             this.SocketPanel.Visible = false;
             this.panel1.Visible = true;
@@ -625,9 +628,9 @@ namespace PlaneBombGame
 
             try
             {
-                IPAddress ip = IPAddress.Parse(getNewIp);
+                IPAddress ip = IPAddress.Parse(this.getNewIp);
 
-                int port = int.Parse(getNewPort);
+                int port = int.Parse(this.getNewPort);
 
                 if (clientOrServer)
                 {
