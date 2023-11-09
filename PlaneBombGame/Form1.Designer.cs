@@ -35,6 +35,7 @@ namespace PlaneBombGame
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.TitleHome = new System.Windows.Forms.Label();
             this.TitleAi = new System.Windows.Forms.Label();
+            this.TitleSocketSub = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
@@ -45,9 +46,19 @@ namespace PlaneBombGame
             this.button8 = new System.Windows.Forms.Button();
             this.button9 = new System.Windows.Forms.Button();
             this.CloseButton = new System.Windows.Forms.Button();
-            
+            // for SocketPanel
+            this.SocketPanellabel1 = new System.Windows.Forms.Label();
+            this.SocketPanellabel2 = new System.Windows.Forms.Label();
+            this.SocketPanellabel3 = new System.Windows.Forms.Label();
+            this.SocketPaneltextBox1 = new System.Windows.Forms.TextBox();
+            this.SocketPaneltextBox2 = new System.Windows.Forms.TextBox();
+            this.SocketPanelbutton1 = new System.Windows.Forms.Button();
+            this.SocketPanelbutton2 = new System.Windows.Forms.Button();
+            this.SocketPanelcheckedListBox1 = new CheckedListBox();
             this.AiPanel = new System.Windows.Forms.Panel();
             this.TopPanel = new System.Windows.Forms.Panel();
+            this.SocketPanel = new System.Windows.Forms.Panel();    
+            this.SocketSubPanel = new System.Windows.Forms.Panel(); 
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -58,10 +69,96 @@ namespace PlaneBombGame
             this.panel3 = new System.Windows.Forms.Panel();
             this.AiPanel.SuspendLayout();
             this.TopPanel.SuspendLayout();
+            this.SocketPanel.SuspendLayout();
+            this.SocketSubPanel.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
             this.SuspendLayout();
+
+            // for SocketPanel
+            // 
+            // SocketPanellabel1
+            // 
+            this.SocketPanellabel1.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.SocketPanellabel1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.SocketPanellabel1.Location = new System.Drawing.Point(60, 41 + 20);
+            this.SocketPanellabel1.Name = "SocketPanellabel1";
+            this.SocketPanellabel1.Size = new System.Drawing.Size(29, 23);
+            this.SocketPanellabel1.TabIndex = 0;
+            this.SocketPanellabel1.Text = "IP";
+            this.SocketPanellabel1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // SocketPaneltextBox1
+            // 
+            this.SocketPaneltextBox1.Location = new System.Drawing.Point(169, 43 + 20);
+            this.SocketPaneltextBox1.Name = "SocketPaneltextBox1";
+            this.SocketPaneltextBox1.Size = new System.Drawing.Size(100, 21);
+            this.SocketPaneltextBox1.TabIndex = 1;
+            this.SocketPaneltextBox1.Text = "127.0.0.1";
+            this.SocketPaneltextBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // SocketPanellabel2
+            // 
+            this.SocketPanellabel2.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.SocketPanellabel2.Location = new System.Drawing.Point(60, 74 + 20);
+            this.SocketPanellabel2.Name = "SocketPanellabel2";
+            this.SocketPanellabel2.Size = new System.Drawing.Size(43, 21);
+            this.SocketPanellabel2.TabIndex = 2;
+            this.SocketPanellabel2.Text = "端口";
+            // 
+            // SocketPaneltextBox2
+            // 
+            this.SocketPaneltextBox2.Location = new System.Drawing.Point(169, 74 + 20);
+            this.SocketPaneltextBox2.Name = "SocketPaneltextBox2";
+            this.SocketPaneltextBox2.Size = new System.Drawing.Size(100, 21);
+            this.SocketPaneltextBox2.TabIndex = 3;
+            this.SocketPaneltextBox2.Text = "8885";
+            this.SocketPaneltextBox2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // SocketPanelcheckedListBox1
+            // 
+            this.SocketPanelcheckedListBox1.FormattingEnabled = true;
+            this.SocketPanelcheckedListBox1.Location = new System.Drawing.Point(169, 101 + 20);
+            this.SocketPanelcheckedListBox1.Name = "SocketPanelcheckedListBox1";
+            this.SocketPanelcheckedListBox1.Size = new System.Drawing.Size(100, 36);
+            this.SocketPanelcheckedListBox1.TabIndex = 4;
+            this.SocketPanelcheckedListBox1.SelectedIndexChanged += new System.EventHandler(this.SocketPanelcheckedListBox1_SelectedIndexChanged);
+            this.SocketPanelcheckedListBox1.Items.Add("Client");
+            this.SocketPanelcheckedListBox1.Items.Add("Server");
+            this.SocketPanelcheckedListBox1.CheckOnClick = true;
+            // 
+            // SocketPanellabel3
+            // 
+            this.SocketPanellabel3.AutoSize = true;
+            this.SocketPanellabel3.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.SocketPanellabel3.Location = new System.Drawing.Point(60, 112 + 20);
+            this.SocketPanellabel3.Name = "SocketPanellabel3";
+            this.SocketPanellabel3.Size = new System.Drawing.Size(103, 16);
+            this.SocketPanellabel3.TabIndex = 5;
+            this.SocketPanellabel3.Text = "选择运行模式";
+            this.SocketPanellabel3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // SocketPanelbutton1
+            // 
+            this.SocketPanelbutton1.Location = new System.Drawing.Point(306, 205);
+            this.SocketPanelbutton1.Name = "SocketPanelbutton1";
+            this.SocketPanelbutton1.Size = new System.Drawing.Size(75, 23);
+            this.SocketPanelbutton1.TabIndex = 6;
+            this.SocketPanelbutton1.Text = "确定";
+            this.SocketPanelbutton1.UseVisualStyleBackColor = true;
+            this.SocketPanelbutton1.Click += new System.EventHandler(this.SocketPanelbutton1_Click);
+            // 
+            // SocketPanelbutton2
+            // 
+            this.SocketPanelbutton2.Location = new System.Drawing.Point(56, 205);
+            this.SocketPanelbutton2.Name = "SocketPanelbutton2";
+            this.SocketPanelbutton2.Size = new System.Drawing.Size(75, 23);
+            this.SocketPanelbutton2.TabIndex = 6;
+            this.SocketPanelbutton2.Text = "返回";
+            this.SocketPanelbutton2.UseVisualStyleBackColor = true;
+            this.SocketPanelbutton2.Click += new System.EventHandler(this.SocketPanelbutton2_Click);
+
             // 
             // TitleHome
             // 
@@ -88,6 +185,19 @@ namespace PlaneBombGame
             this.TitleAi.Size = new System.Drawing.Size(300, 68);
             this.TitleAi.TabIndex = 0;
             this.TitleAi.Text = "难度选择";
+            // 
+            // TitleSocketSub
+            // 
+            this.TitleSocketSub.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
+            this.TitleSocketSub.AutoSize = true;
+            this.TitleSocketSub.BackColor = System.Drawing.Color.Transparent;
+            this.TitleSocketSub.Font = new System.Drawing.Font("华文新魏", 60F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.TitleSocketSub.ForeColor = System.Drawing.Color.OrangeRed;
+            this.TitleSocketSub.Location = new System.Drawing.Point(8, 30);
+            this.TitleSocketSub.Name = "TitleAi";
+            this.TitleSocketSub.Size = new System.Drawing.Size(300, 68);
+            this.TitleSocketSub.TabIndex = 0;
+            this.TitleSocketSub.Text = "配置网络";
             // 
             // button1
             // 
@@ -309,6 +419,30 @@ namespace PlaneBombGame
             this.AiPanel.TabIndex = 6;
             this.AiPanel.Visible = false;
             // 
+            // SocketPanel
+            // 
+            this.SocketPanel.Location = new System.Drawing.Point(167, 152);
+            this.SocketPanel.Name = "SockPanel";
+            this.SocketPanel.Size = new System.Drawing.Size(416, 252);
+            this.SocketPanel.Visible = false;
+            this.SocketPanel.Controls.Add(this.SocketPanelbutton1);
+            this.SocketPanel.Controls.Add(this.SocketPanelbutton2);
+            this.SocketPanel.Controls.Add(this.SocketPanellabel3);
+            this.SocketPanel.Controls.Add(this.SocketPanelcheckedListBox1);
+            this.SocketPanel.Controls.Add(this.SocketPaneltextBox2);
+            this.SocketPanel.Controls.Add(this.SocketPanellabel2);
+            this.SocketPanel.Controls.Add(this.SocketPaneltextBox1);
+            this.SocketPanel.Controls.Add(this.SocketPanellabel1);
+            //
+            // SocketSubPanel
+            // 
+            this.SocketSubPanel.BackColor = System.Drawing.Color.Transparent;
+            this.SocketSubPanel.Controls.Add(this.TitleSocketSub);
+            this.SocketSubPanel.Location = new System.Drawing.Point(190, 35);
+            this.SocketSubPanel.Name = "SocketSubPanel";
+            this.SocketSubPanel.Size = new System.Drawing.Size(600, 600);
+            this.SocketSubPanel.Visible = false;
+            // 
             // label1
             // 
             this.label1.BackColor = System.Drawing.SystemColors.ControlLight;
@@ -377,11 +511,13 @@ namespace PlaneBombGame
             this.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.background));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.ClientSize = new System.Drawing.Size(100, 600);
+            this.ClientSize = new System.Drawing.Size(StandardSize.HomeWidth, StandardSize.HomeHeight);
             this.MaximizeBox = false;
             this.Controls.Add(this.TopPanel);
             this.Controls.Add(this.AiPanel);
             this.Controls.Add(this.panel1);
+            this.Controls.Add(this.SocketPanel);
+            this.Controls.Add(this.SocketSubPanel);
             this.Margin = new System.Windows.Forms.Padding(0, 0, 0, 0);
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -392,6 +528,10 @@ namespace PlaneBombGame
             this.AiPanel.PerformLayout();
             this.TopPanel.ResumeLayout(false);
             this.TopPanel.PerformLayout();
+            this.SocketPanel.ResumeLayout(false);
+            this.SocketPanel.PerformLayout();
+            this.SocketSubPanel.ResumeLayout(false);
+            this.SocketSubPanel.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
@@ -403,6 +543,7 @@ namespace PlaneBombGame
         #endregion
         private System.Windows.Forms.Label TitleHome;
         private System.Windows.Forms.Label TitleAi;
+        private System.Windows.Forms.Label TitleSocketSub;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
@@ -415,6 +556,8 @@ namespace PlaneBombGame
         private System.Windows.Forms.Button CloseButton;
         private Panel AiPanel;
         private Panel TopPanel;
+        private Panel SocketPanel;
+        private Panel SocketSubPanel;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel3;
@@ -423,6 +566,15 @@ namespace PlaneBombGame
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
+        // for SocketPanel
+        private System.Windows.Forms.Label SocketPanellabel1;
+        private System.Windows.Forms.TextBox SocketPaneltextBox1;
+        private System.Windows.Forms.Label SocketPanellabel2;
+        private System.Windows.Forms.TextBox SocketPaneltextBox2;
+        private System.Windows.Forms.CheckedListBox SocketPanelcheckedListBox1;
+        private System.Windows.Forms.Label SocketPanellabel3;
+        private System.Windows.Forms.Button SocketPanelbutton1;
+        private System.Windows.Forms.Button SocketPanelbutton2;
     }
 }
 
