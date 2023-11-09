@@ -201,7 +201,7 @@ namespace PlaneBombGame
 
             if (form1.WindowState == FormWindowState.Minimized)
             {
-                this.WindowState = FormWindowState.Minimized;
+                this.WindowState = FormWindowState.Normal;
             }
 
             int PlacementX = (e.X - StandardSize.toLeft) / StandardSize.BlockWidth;

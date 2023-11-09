@@ -185,8 +185,9 @@ namespace PlaneBombGame
         {
             if (this.kind == 0)
             {
-                button1_Click(sender, e);
-            }else if(this.kind == 1)
+                reBeginNewHumanModeGame();
+            }
+            else if(this.kind == 1)
             {
                 button3_Click(sender, e);
             }else if(this.kind == 2)

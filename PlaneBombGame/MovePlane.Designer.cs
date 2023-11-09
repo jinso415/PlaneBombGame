@@ -34,8 +34,8 @@ partial class MovePlane
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(727, 911);
-            this.Location = new System.Drawing.Point(100, 10);
+            this.ClientSize = new System.Drawing.Size(540, 600);
+            this.Location = new System.Drawing.Point(0, 0);
             this.Name = "MovePlane";
             this.Text = "MovePlane";
             this.Load += new System.EventHandler(this.MovePlane_Load);
