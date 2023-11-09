@@ -318,35 +318,47 @@ namespace PlaneBombGame
                 {
                     if(isConnected == false)
                     {
+                        this.movePlaneForm.Width = 0;
                         MessageBox.Show("请耐心等待云端接入！", "提示");
+                        this.movePlaneForm.Width = 540;
                         return;
                     }
                     if(isEnemySetAllPlanes == false)
                     {
+                        this.movePlaneForm.Width = 0;
                         MessageBox.Show("请耐心等待对手放置完Ta的飞机！", "提示");
+                        this.movePlaneForm.Width = 540;
                         return;
                     }
                     if (isEnemyReadyForGame == false)
                     {
+                        this.movePlaneForm.Width = 0;
                         MessageBox.Show("请等待对手做好新游戏准备！", "提示");
+                        this.movePlaneForm.Width = 540;
                         return;
                     }
                     if (whoseTurn == false)
                     {
+                        this.movePlaneForm.Width = 0;
                         MessageBox.Show("请等待对手行棋！", "提示");
+                        this.movePlaneForm.Width = 540;
                         label4.Text = "请等待对手行棋！";
                         return;
                     }
                 }
                 if (state.GetLeftCount() != 3)
                 {
+                    this.movePlaneForm.Width = 0;
                     MessageBox.Show("请先放置三个飞机！ 当前飞机数 ： " + state.GetLeftCount(), "提示");
+                    this.movePlaneForm.Width = 540;
                     return;
                 }
                 //MessageBox.Show(e.X + " " + e.Y); 相对于当前panel
                 if (!Judger.JudgeLegalMouseDown(e.X, e.Y))
                 {
+                    this.movePlaneForm.Width = 0;
                     MessageBox.Show("位置不合法, 请重新放置", "提示");
+                    this.movePlaneForm.Width = 540;
                     return;
                 }
 
@@ -357,7 +369,9 @@ namespace PlaneBombGame
                 {
                     if (!Judger.JudgeLegalPlacement(state.GetLocalPlayer(), PlacementX, PlacementY))
                     {
-                            MessageBox.Show("位置不合法, 请重新放置", "提示");
+                        this.movePlaneForm.Width = 0;
+                        MessageBox.Show("位置不合法, 请重新放置", "提示");
+                        this.movePlaneForm.Width = 540;
                         return;
                     }
 
@@ -376,7 +390,9 @@ namespace PlaneBombGame
                         {
                             state.DrawPlane(panel3.CreateGraphics(), false);
                             state.DrawPoint(state.GetLocalPlayer(), state.GetAdversaryPlayer(), panel3.CreateGraphics());
+                            this.movePlaneForm.Width = 0;
                             MessageBox.Show("You Won The Game!!");
+                            this.movePlaneForm.Width = 540;
                             aNewGameStart = true;
                             label4.Text = "点击此处重新开始游戏...";                            
                             
