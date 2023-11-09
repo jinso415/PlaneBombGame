@@ -138,6 +138,9 @@ namespace PlaneBombGame
         {
             if (this.kind == 0)
             {
+                this.state = null;
+                this.movePlaneForm = null;
+                this.TransMessageThread.Abort();
                 reBeginNewHumanModeGame();
             }
             else if(this.kind == 1)
@@ -194,9 +197,9 @@ namespace PlaneBombGame
             nowDir = 0;
             this.label1.Font = new System.Drawing.Font("宋体", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             label1.Text = label1Text + directions[nowDir];
-            //panel1.Invalidate();
-            //panel2.Invalidate();
-            //panel3.Invalidate();
+            panel1.Invalidate();
+            panel2.Invalidate();
+            panel3.Invalidate();
             lastX = lastY = -1;
             start = true;
             state.SetLeftCount(0);
