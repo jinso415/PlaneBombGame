@@ -201,6 +201,7 @@ namespace PlaneBombGame
         }
         private void button8_Click(object sender, EventArgs e)
         {
+            this.movePlaneForm.Visible = false;
             if(this.kind == 0)
             {
                 this.panel1.Visible = false;
