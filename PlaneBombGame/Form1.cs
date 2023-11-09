@@ -1,5 +1,4 @@
 using System;
-using PlaneBombGame.Image;
 using System.Drawing;
 using System.Net;
 using System.Threading;
@@ -12,6 +11,7 @@ using System.Reflection.Emit;
 using System.Security.Policy;
 using System.Timers;
 using PlaneBombGame;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace PlaneBombGame
 {
@@ -80,23 +80,11 @@ namespace PlaneBombGame
             SetStyle(ControlStyles.AllPaintingInWmPaint, true);
             SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
         }
-        
-        private void initialize()
-        {
-            start = false;
-            label1.Text = "WelCome To Plane Bombbbb!!!";
-        }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            initialize();
-            this.Width = StandardSize.HomeWidth;
-            this.Height = StandardSize.HomeHeight;
-            this.Location = new Point(300, 200);
-            /*            showPredictTmr.Elapsed += new System.Timers.ElapsedEventHandler(showPredictPlane);
-                        showPredictTmr.Enabled = false;
-                        showPredictTmr.Interval = 150;*/
-
+            start = false;
+            label1.Text = "WelCome To Plane Bombbbb!!!";
         }
 
         //玩家对战  采用随机生成飞机  随即落点的方式
@@ -106,51 +94,8 @@ namespace PlaneBombGame
             label5.Text = "玩家对决";
             TopPanel.Visible = false;
             AiPanel.Visible = false;
-            panel1.Visible = true;
-            this.button7.Enabled = false;
-            this.Width = StandardSize.FormWidth;
-            this.Height = StandardSize.FormHeight;
-            if (socket != null)
-            {
-                reBeginNewHumanModeGame();
-            }
-
-            string getNewIp = "";
-
-            string getNewPort = "";
-
-            clientOrServer = false;
-
-            SetInfoDialog.Show(out getNewIp, out getNewPort, out clientOrServer);
-            try
-            {
-                IPAddress ip = IPAddress.Parse(getNewIp);
-
-                int port = int.Parse(getNewPort);
-
-                if (clientOrServer)
-                {
-                    socket = BoomPlaneSocket.getSocket(clientOrServer, ip, port);
-                    socket.connectToServer();
-                    whoseTurn = false;
-                }
-                else
-                {
-                    socket = BoomPlaneSocket.getSocket(clientOrServer, ip, port);
-                    socket.ListenClientConnect();
-                    whoseTurn = true;
-                }
-
-                this.label1.Font = new System.Drawing.Font("宋体", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-                label1.Text = label1Text + directions[nowDir];
-
-                BeginNewHumanModeGame();
-            }
-            catch (ArgumentNullException)
-            {
-
-
-            }
+            this.SocketSubPanel.Visible = true;
+            this.SocketPanel.Visible = true;
         }
         
         private void button2_Click(object sender, EventArgs e)
@@ -653,78 +598,68 @@ namespace PlaneBombGame
             }
         }
 
-        /*private void AiModePlayerInit()
+        // for SocketPanel
+        private void SocketPanelcheckedListBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            state.getFirstAiPlayer().SetPlanes(null);
-            //避免两个机器人生成一样的飞机
-            Thread.Sleep(20);
-            state.getSecondAiPlayer().SetPlanes(null);
-            state.DrawPlane(panel2.CreateGraphics(),true);            
-            state.DrawPlane(panel3.CreateGraphics(),false);
-            Thread AiModePlayBeiginThread = new Thread(AiModePlayerBegin);
-            AiModePlayBeiginThread.IsBackground = true;
-            AiModePlayBeiginThread.Start();
+            if (SocketPanelcheckedListBox1.SelectedIndex == 0)
+            {
+                SocketPanelcheckedListBox1.SetItemChecked(1, false);
+                this.clientOrServer = true;
+            }
+            else
+            {
+                SocketPanelcheckedListBox1.SetItemChecked(0, false);
+                this.clientOrServer = false;
+            }
         }
 
-        private void AiModePlayerBegin()
+        private void SocketPanelbutton1_Click(object sender, EventArgs e)
         {
-            while (true)
-            {                 
-                //取一号机器人进攻点
-                AttackPoint firstAttackPoint = state.getFirstAiPlayer().NextAttack();
+            string getNewIp = SocketPaneltextBox1.Text;
+            string getNewPort = SocketPaneltextBox2.Text;
+            this.SocketSubPanel.Visible = false;
+            this.SocketPanel.Visible = false;
+            this.panel1.Visible = true;
+            this.Width = StandardSize.FormWidth;
+            this.Height = StandardSize.FormHeight;
 
-                if (label4.InvokeRequired)
-                {
-                    Action<string> actionDelegate = (x) => { this.label4.Text = x.ToString(); };
-                    this.label4.Invoke(actionDelegate, "1号落子：" + firstAttackPoint.x + " "+ firstAttackPoint.y);
-                }
-
-                //绘制在二号机器人棋盘上
-                string res = state.DrawLastPoint(firstAttackPoint, state.getSecondAiPlayer(), panel3.CreateGraphics());                
-                
-                state.getFirstAiPlayer().AddAttackPoint(firstAttackPoint, res);
-                
-                //判断一号机器人是否胜利
-                if (Judger.JudgePlayerWin(state.getFirstAiPlayer(), state.getSecondAiPlayer()))
-                {
-                    MessageBox.Show("一号机器人赢得了游戏 !");                    
-                    break;
-                }               
-
-                Thread.Sleep(300);
-
-                AttackPoint secondAttackPoint = state.getSecondAiPlayer().NextAttack();
-                
-                if (label4.InvokeRequired)
-                {
-                    Action<string> actionDelegate = (x) => { this.label4.Text = x.ToString(); };
-                    this.label4.Invoke(actionDelegate, "2号落子：" + secondAttackPoint.x + " " + secondAttackPoint.y);
-                }
-                
-                res = state.DrawLastPoint(secondAttackPoint, state.getFirstAiPlayer(), panel3.CreateGraphics());
-                
-                state.getSecondAiPlayer().AddAttackPoint(secondAttackPoint, res);
-
-                //判断二号机器人是否胜利
-                if (Judger.JudgePlayerWin(state.getSecondAiPlayer(), state.getFirstAiPlayer()))
-                {
-                    MessageBox.Show("二号机器人赢得了游戏 !");
-                    break;
-                }
-
-                Thread.Sleep(300);
-            }
-            if (button3.InvokeRequired)
+            try
             {
-                Action<bool> actionDelegate = (x) => { this.button3.Enabled = x; };
-                this.button3.Invoke(actionDelegate, true);
+                IPAddress ip = IPAddress.Parse(getNewIp);
+
+                int port = int.Parse(getNewPort);
+
+                if (clientOrServer)
+                {
+                    socket = BoomPlaneSocket.getSocket(clientOrServer, ip, port);
+                    socket.connectToServer();
+                    whoseTurn = false;
+                }
+                else
+                {
+                    socket = BoomPlaneSocket.getSocket(clientOrServer, ip, port);
+                    socket.ListenClientConnect();
+                    whoseTurn = true;
+                }
+
+                this.label1.Font = new System.Drawing.Font("宋体", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+                label1.Text = label1Text + directions[nowDir];
+
+                BeginNewHumanModeGame();
             }
-            if (button1.InvokeRequired)
+            catch (ArgumentNullException)
             {
-                Action<bool> actionDelegate = (x) => { this.button1.Enabled = x; };
-                this.button1.Invoke(actionDelegate, true);
+
+
             }
-        }*/
+        }
+
+        private void SocketPanelbutton2_Click(object sender, EventArgs e)
+        {
+            this.SocketPanel.Visible = false;
+            this.SocketSubPanel.Visible = false;
+            this.TopPanel.Visible = true;
+        }
 
         private void paintLoaclPlane()
         {
