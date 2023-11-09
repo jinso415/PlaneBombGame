@@ -106,6 +106,7 @@ namespace PlaneBombGame
             TopPanel.Visible = false;
             AiPanel.Visible = false;
             panel1.Visible = true;
+            this.button7.Enabled = false;
             this.Width = StandardSize.FormWidth;
             this.Height = StandardSize.FormHeight;
             if (socket != null)
@@ -161,18 +162,21 @@ namespace PlaneBombGame
         private void button3_Click(object sender, EventArgs e)
         {
             this.kind = 1;
+            this.button7.Enabled = true;
             this.label5.Text = "人机对决（简单）";
             BeginNewVirtualModeGame(0);
         }
         private void button4_Click(object sender, EventArgs e)
         {
             this.kind = 2;
+            this.button7.Enabled = true;
             this.label5.Text = "人机对决（中等）";
             BeginNewVirtualModeGame(1);
         }
         private void button5_Click(object sender, EventArgs e)
         {
             this.kind = 3;
+            this.button7.Enabled = true;
             this.label5.Text = "人机对决（困难）";
             BeginNewVirtualModeGame(2);
         }
@@ -427,8 +431,7 @@ namespace PlaneBombGame
                             MessageBox.Show("You Won The Game!!");
                             label4.Text = "请选择以下操作";
                             //BeginNewVirtualModeGame();
-                            start = false;//重新开始游戏
-                            button3.Enabled = true;//允许进行AI自动对战                           
+                            start = false;//重新开始游戏                        
                             return;
                         }
 
@@ -488,6 +491,7 @@ namespace PlaneBombGame
 
                 if(socket.isConnected == true && isConnected == false)
                 {
+                    this.button7.Enabled = true;
                     isConnected = true;
                     adverReadyForNewGame = true;
                     start = true;
