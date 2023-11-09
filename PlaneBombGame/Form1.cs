@@ -157,6 +157,7 @@ namespace PlaneBombGame
         }
         private void button8_Click(object sender, EventArgs e)
         {
+            isConnected = false;
             this.movePlaneForm.Visible = false;
             if(this.kind == 0)
             {
@@ -310,11 +311,7 @@ namespace PlaneBombGame
         {
             if (start)
             {
-                if (state.GetLeftCount() != 3)
-                {
-                    MessageBox.Show("请先放置三个飞机！ 当前飞机数 ： " + state.GetLeftCount(), "提示");
-                    return;
-                }
+                
 
                 //不是我的回合
                 if (state is HumanModeState)
@@ -341,7 +338,11 @@ namespace PlaneBombGame
                         return;
                     }
                 }
-
+                if (state.GetLeftCount() != 3)
+                {
+                    MessageBox.Show("请先放置三个飞机！ 当前飞机数 ： " + state.GetLeftCount(), "提示");
+                    return;
+                }
                 //MessageBox.Show(e.X + " " + e.Y); 相对于当前panel
                 if (!Judger.JudgeLegalMouseDown(e.X, e.Y))
                 {
