@@ -12,6 +12,7 @@ using System.Security.Policy;
 using System.Timers;
 using PlaneBombGame;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using System.Windows.Forms.VisualStyles;
 
 namespace PlaneBombGame
 {
@@ -65,7 +66,10 @@ namespace PlaneBombGame
         private string getNewIp; // IP for socket
         private string getNewPort; // Port for socket
 
-        //private System.Timers.Timer showPredictTmr = new System.Timers.Timer();
+        // for count down
+        public int leftCountTime = 30 * 1000;
+        public int rightCountTime = 30 * 1000;
+        private System.Timers.Timer tmr = new System.Timers.Timer();
 
         internal static Form1 getForm1()
         {
@@ -82,6 +86,10 @@ namespace PlaneBombGame
             SetStyle(ControlStyles.UserPaint, true);
             SetStyle(ControlStyles.AllPaintingInWmPaint, true);
             SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
+            tmr.Elapsed += new System.Timers.ElapsedEventHandler(countDown);
+            tmr.Interval = 10;
+            tmr.AutoReset = true;
+            tmr.Enabled = true;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -141,7 +149,10 @@ namespace PlaneBombGame
                 this.state = null;
                 this.movePlaneForm = null;
                 this.TransMessageThread.Abort();
-                reBeginNewHumanModeGame();
+                this.leftCountTime = 30 * 1000;
+                this.rightCountTime = 30 * 1000;
+                //reBeginNewHumanModeGame();
+                this.SocketPanelbutton1.PerformClick();
             }
             else if(this.kind == 1)
             {
@@ -157,9 +168,9 @@ namespace PlaneBombGame
         }
         private void button8_Click(object sender, EventArgs e)
         {
-            isConnected = false;
-            this.movePlaneForm.Visible = false;
-            if(this.kind == 0)
+            isConnected = false;  
+            if(this.movePlaneForm != null) this.movePlaneForm.Visible = false;
+            if (this.kind == 0)
             {
                 this.state = null;
                 this.movePlaneForm = null;
@@ -168,6 +179,8 @@ namespace PlaneBombGame
                 GC.Collect();
                 this.panel1.Visible = false;
                 this.TopPanel.Visible = true;
+                this.leftCountTime = 30 * 1000;
+                this.rightCountTime = 30 * 1000;
             }
             else
             {
@@ -194,6 +207,8 @@ namespace PlaneBombGame
             TopPanel.Visible = false;
             AiPanel.Visible = false;
             panel1.Visible = true;
+            this.leftCountLabel.Visible = false;
+            this.rightCountLabel.Visible = false;
             this.Width = StandardSize.FormWidth;
             this.Height = StandardSize.FormHeight;
             label4.Text = "正在进行人机对战...";
@@ -239,6 +254,9 @@ namespace PlaneBombGame
             TransMessageThread = new Thread(transMessage);
             TransMessageThread.IsBackground = true;
             TransMessageThread.Start();
+
+            this.leftCountLabel.Visible = true;
+            this.rightCountLabel.Visible = true;
 
             lastX = lastY = -1;
             panel1.Invalidate();
@@ -386,6 +404,8 @@ namespace PlaneBombGame
                         socket.sendStr = chessDownStr;
                         chessDownCount++;
                         label4.Text = "请等待对方落子...";
+                        this.rightCountTime = 10 * 1000;
+                        this.leftCountTime = 10 * 1000;
                         if (Judger.JudgePlayerWin(state.GetLocalPlayer(), state.GetAdversaryPlayer()))
                         {
                             state.DrawPlane(panel3.CreateGraphics(), false);
@@ -550,6 +570,11 @@ namespace PlaneBombGame
                                 }
 
                                 isEnemySetAllPlanes = true;
+                                if (this.state != null && this.state.GetLeftCount() == 3)
+                                {
+                                    this.leftCountTime = 10 * 1000;
+                                    this.rightCountTime = 10 * 1000;
+                                }
                             }
                             break;
                         case 1:
@@ -597,6 +622,8 @@ namespace PlaneBombGame
                                 }
                                 //允许下棋
                                 whoseTurn = true;
+                                this.leftCountTime = 10 * 1000;
+                                this.rightCountTime = 10 * 1000;
                             }
                             break;
                         case 2:
@@ -616,6 +643,46 @@ namespace PlaneBombGame
                                 }
                             }
                             keepSendingMsg = false;                            
+                            break;
+                        case 4:
+                            // 对方放飞机超时
+                            aNewGameStart = true;
+                            MessageBox.Show("AdversaryPlayer Placing plane overtime");
+                            if (label4.InvokeRequired)
+                            {
+                                Action<string> actionDelegate = (x) => { this.label4.Text = x.ToString(); };
+                                this.label4.Invoke(actionDelegate, "点击此处重新开始游戏 ...");
+                            }
+                            if (button3.InvokeRequired)
+                            {
+                                Action<bool> actionDelegate = (x) => { this.button3.Enabled = x; };
+                                this.button3.Invoke(actionDelegate, true);
+                            }
+                            if (button1.InvokeRequired)
+                            {
+                                Action<bool> actionDelegate = (x) => { this.button1.Enabled = x; };
+                                this.button1.Invoke(actionDelegate, true);
+                            }
+                            break;
+                        case 5:
+                            // 对方回合超时
+                            aNewGameStart = true;
+                            MessageBox.Show("AdversaryPlayer Placing chess overtime");
+                            if (label4.InvokeRequired)
+                            {
+                                Action<string> actionDelegate = (x) => { this.label4.Text = x.ToString(); };
+                                this.label4.Invoke(actionDelegate, "点击此处重新开始游戏 ...");
+                            }
+                            if (button3.InvokeRequired)
+                            {
+                                Action<bool> actionDelegate = (x) => { this.button3.Enabled = x; };
+                                this.button3.Invoke(actionDelegate, true);
+                            }
+                            if (button1.InvokeRequired)
+                            {
+                                Action<bool> actionDelegate = (x) => { this.button1.Enabled = x; };
+                                this.button1.Invoke(actionDelegate, true);
+                            }
                             break;
                     } 
                     //消息翻译完毕字符串清空
@@ -737,7 +804,7 @@ namespace PlaneBombGame
             if (start)
             {
                 if (state is AIModeState) return;
-                if(movePlaneForm.WindowState == FormWindowState.Minimized)
+                if(movePlaneForm != null && movePlaneForm.WindowState == FormWindowState.Minimized)
                 {
                     movePlaneForm.WindowState = FormWindowState.Normal;
                 }
@@ -799,5 +866,93 @@ namespace PlaneBombGame
             return (GetActiveWindow() == this.Handle);
         }
 
+
+        // for count down
+        private void countDown(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            if (this.state != null && this.state is HumanModeState && this.aNewGameStart == false && this.isEnemyReadyForGame)
+            {
+                if (this.state.GetLeftCount() < 3 || !this.isEnemySetAllPlanes)
+                {
+                    if (this.state.GetLeftCount() < 3)
+                    {
+                        this.leftCountTime -= 10;
+                        if (this.leftCountTime == 0)
+                        {
+                            aNewGameStart = true;
+                            this.showCountTime();
+                            this.socket.sendStr = "4";
+                            MessageBox.Show("Your Placing plane overtime");
+                            if (label4.InvokeRequired)
+                            {
+                                Action<string> actionDelegate = (x) => { this.label4.Text = x.ToString(); };
+                                this.label4.Invoke(actionDelegate, "点击此处重新开始游戏 ...");
+                            }
+                            if (button3.InvokeRequired)
+                            {
+                                Action<bool> actionDelegate = (x) => { this.button3.Enabled = x; };
+                                this.button3.Invoke(actionDelegate, true);
+                            }
+                            if (button1.InvokeRequired)
+                            {
+                                Action<bool> actionDelegate = (x) => { this.button1.Enabled = x; };
+                                this.button1.Invoke(actionDelegate, true);
+                            }
+                        }
+                    }
+                    if (!this.isEnemySetAllPlanes)
+                    {
+                        this.rightCountTime -= 10;
+                    }
+                } else
+                {
+                    if (this.whoseTurn)
+                    {
+                        this.leftCountTime -= 10;
+                        if (this.leftCountTime == 0)
+                        {
+                            aNewGameStart = true;
+                            this.socket.sendStr = "5";
+                            this.showCountTime();
+                            MessageBox.Show("Your Placing chess overtime");
+                            if (label4.InvokeRequired)
+                            {
+                                Action<string> actionDelegate = (x) => { this.label4.Text = x.ToString(); };
+                                this.label4.Invoke(actionDelegate, "点击此处重新开始游戏 ...");
+                            }
+                            if (button3.InvokeRequired)
+                            {
+                                Action<bool> actionDelegate = (x) => { this.button3.Enabled = x; };
+                                this.button3.Invoke(actionDelegate, true);
+                            }
+                            if (button1.InvokeRequired)
+                            {
+                                Action<bool> actionDelegate = (x) => { this.button1.Enabled = x; };
+                                this.button1.Invoke(actionDelegate, true);
+                            }
+                        }
+                        
+                    } else { this.rightCountTime -= 10;}
+                }
+                if (this.leftCountTime % 1000 == 0 || this.rightCountTime % 1000 == 0)
+                {
+                    this.showCountTime();
+                }
+            }
+        }
+
+        private void showCountTime()
+        {
+            if (this.leftCountTime <= 5) this.leftCountLabel.ForeColor = Color.Red;
+            else this.leftCountLabel.ForeColor = Color.Black;
+            if (this.rightCountTime <= 5) this.rightCountLabel.ForeColor = Color.Red;
+            else this.rightCountLabel.ForeColor = Color.Black;
+            Action<string> actionLeftCountLabel = (x) => { this.leftCountLabel.Text = x.ToString(); };
+            Action<string> actionRightCountLabel = (x) => { this.rightCountLabel.Text = x.ToString(); };
+            string formattedLeft = String.Format("{0:D2}", this.leftCountTime / 1000);
+            string formattedRight = String.Format("{0:D2}", this.rightCountTime / 1000);
+            this.leftCountLabel.Invoke(actionLeftCountLabel, formattedLeft);
+            this.rightCountLabel.Invoke(actionRightCountLabel, formattedRight);
+        }
     }
 }
