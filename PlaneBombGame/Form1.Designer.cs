@@ -75,6 +75,35 @@ namespace PlaneBombGame
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
             this.SuspendLayout();
+            // for count down
+            this.leftCountLabel = new System.Windows.Forms.Label();
+            this.rightCountLabel = new System.Windows.Forms.Label();
+
+            //for count down
+            //
+            //leftCountPanel
+            //
+            this.leftCountLabel.Font = new System.Drawing.Font("宋体", 35F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.leftCountLabel.Location = new System.Drawing.Point(30, 5);
+            this.leftCountLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.leftCountLabel.Name = "leftCountLabel";
+            this.leftCountLabel.Size = new System.Drawing.Size(68, 50);
+            this.leftCountLabel.TabIndex = 0;
+            this.leftCountLabel.Text = "30";
+            this.leftCountLabel.BackColor = System.Drawing.SystemColors.ControlLight;
+            //
+            //rightCountPanel
+            //
+            this.rightCountLabel.Font = new System.Drawing.Font("宋体", 35F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.rightCountLabel.Location = new System.Drawing.Point(1085, 5);
+            this.rightCountLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.rightCountLabel.Name = "leftCountLabel";
+            this.rightCountLabel.Size = new System.Drawing.Size(68, 50);
+            this.rightCountLabel.TabIndex = 0;
+            this.rightCountLabel.Text = "30";
+            this.rightCountLabel.BackColor = System.Drawing.SystemColors.ControlLight;
+
+
 
             // for SocketPanel
             // 
@@ -351,6 +380,8 @@ namespace PlaneBombGame
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.leftCountLabel);
+            this.panel1.Controls.Add(this.rightCountLabel);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label3);
@@ -575,6 +606,9 @@ namespace PlaneBombGame
         private System.Windows.Forms.Label SocketPanellabel3;
         private System.Windows.Forms.Button SocketPanelbutton1;
         private System.Windows.Forms.Button SocketPanelbutton2;
+        // for count down
+        private System.Windows.Forms.Label leftCountLabel;
+        private System.Windows.Forms.Label rightCountLabel;
     }
 }
 

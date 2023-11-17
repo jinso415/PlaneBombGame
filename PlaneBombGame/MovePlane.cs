@@ -168,6 +168,9 @@ namespace PlaneBombGame
                             return;
                         }
 
+                        form1.leftCountTime = 10 * 1000;
+                        form1.rightCountTime = 10 * 1000;
+
                         MessageBox.Show("对手已经放置完Ta的飞机", "提示");
                         setForm1Active();
 
